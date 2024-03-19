@@ -159,3 +159,28 @@ const updatedGenres = [...genres, "epic fantasy"];
 updatedGenres;
 
 const updatedBook = { ...book, moviePublicationDate: "2001-12-19" };
+
+const summary = `${title} is a book`;
+summary;
+
+const pagesRange = pages > 1000 ? "over a thousand" : "less than thousand";
+
+pagesRange;
+
+// const fizzBuzz = () => {
+//   const array = [];
+//   for (let i = 1; i <= 100; i++) {
+//     array.push(i);
+//   }
+//   return array.map((num) =>
+//     num % 3 === 0 && num % 5 === 0
+//       ? (num = "FizzBuzz")
+//       : num % 3 === 0
+//       ? (num = "Fizz")
+//       : num % 5 === 0
+//       ? (num = "Buzz")
+//       : (num = num)
+//   );
+// };
+
+// console.log(fizzBuzz());
