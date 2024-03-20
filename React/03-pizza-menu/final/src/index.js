@@ -180,6 +180,6 @@ root.render(
     <App />
   </React.StrictMode>
 );
-
-// React before 18
-// ReactDOM.render(<App />, document.getElementById("root"));
+const Navbar = () => {
+  return <div>This is the navbar!</div>;
+};

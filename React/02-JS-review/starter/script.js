@@ -147,25 +147,25 @@ function getBook(id) {
 
 const book = getBook(2);
 
-book;
+// book;
 
-const { title, author, pages, publicationDate, genres, hasMovieAdaptation } =
-  book;
+// const { title, author, pages, publicationDate, genres, hasMovieAdaptation } =
+//   book;
 
-const { primaryGenre, secondaryGenre, ...otherGenres } = genres;
-genres;
+// const { primaryGenre, secondaryGenre, ...otherGenres } = genres;
+// genres;
 
-const updatedGenres = [...genres, "epic fantasy"];
-updatedGenres;
+// const updatedGenres = [...genres, "epic fantasy"];
+// updatedGenres;
 
-const updatedBook = { ...book, moviePublicationDate: "2001-12-19" };
+// const updatedBook = { ...book, moviePublicationDate: "2001-12-19" };
 
-const summary = `${title} is a book`;
-summary;
+// const summary = `${title} is a book`;
+// summary;
 
-const pagesRange = pages > 1000 ? "over a thousand" : "less than thousand";
+// const pagesRange = pages > 1000 ? "over a thousand" : "less than thousand";
 
-pagesRange;
+// pagesRange;
 
 // const fizzBuzz = () => {
 //   const array = [];
@@ -183,4 +183,11 @@ pagesRange;
 //   );
 // };
 
-// console.log(fizzBuzz());
+// fetch("https://jsonplaceholder.typicode.com/todos/")
+//   .then((res) => res.json())
+//   .then((data) => console.log(data));
+
+async function getTodos() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos/");
+  const data = await res.json();
+}
