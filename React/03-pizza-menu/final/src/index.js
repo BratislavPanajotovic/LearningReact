@@ -180,6 +180,3 @@ root.render(
     <App />
   </React.StrictMode>
 );
-const Navbar = () => {
-  return <div>This is the navbar!</div>;
-};

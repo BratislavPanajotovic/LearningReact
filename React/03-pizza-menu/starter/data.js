@@ -42,3 +42,29 @@ const pizzaData = [
     soldOut: false,
   },
 ];
+function App() {
+  return (
+    <div>
+      {" "}
+      <Header /> <Pizza />{" "}
+    </div>
+  );
+}
+
+function Header() {
+  return <h1>Fast React Pizza Co.</h1>;
+}
+function Menu() {}
+function Footer() {}
+
+function Pizza() {
+  return <h2>Pizza Details</h2>;
+}
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
