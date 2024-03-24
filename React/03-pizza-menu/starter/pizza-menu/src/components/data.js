@@ -47,28 +47,23 @@ function Header() {
   return <h1>Fast React Pizza Co.</h1>;
 }
 function Menu() {
+  const pizzas = pizzaData;
+  const numPizzas = pizzas.length;
+
   return (
-    <div>
+    <main className="menu">
       {" "}
       <h2>Our menu</h2>
-      <div>
-        {pizzaData.map((pizza) => (
-          <Pizza pizzaObj={pizza} />
-        ))}
-      </div>
-      {/* <Pizza
-        name="Pizza Spinnaci"
-        ingredients="Tomato,mozarella,spinachmand ricotta cheese"
-        photoName="../pizzas/spinaci.jpg"
-        price="10"
-      />
-      <Pizza
-        name="Funghi"
-        ingredients="Tomato,mushrooms"
-        price="12"
-        photoName="../pizzas/funghi.jpg"
-      /> */}
-    </div>
+      {numPizzas > 0 ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <p>We're still working on our menu. Please come back later!</p>
+      )}
+    </main>
   );
 }
 
@@ -76,22 +71,33 @@ function Footer() {
   const hour = new Date().getHours();
   const openHour = 12;
   const closeHour = 22;
-
-  if (hour >= openHour && hour <= closeHour) alert("We're currently open!");
-  else alert("Sorry we're closed");
+  const isOpen = hour >= openHour && hour <= closeHour;
 
   return (
-    <footer>{new Date().toLocaleTimeString()}. We're currently open!</footer>
+    <footer className="footer">
+      {isOpen ? (
+        <div className="order">
+          <p>
+            Wer're open until {closeHour}:00. Come visit us or order online.
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+        </p>
+      )}
+    </footer>
   );
 }
 function Pizza(props) {
   return (
-    <div>
+    <li>
       <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
       <div>
         <h2>{props.pizzaObj.name}</h2> <p>{props.pizzaObj.ingredients}</p>
       </div>
-    </div>
+    </li>
   );
 }
 
