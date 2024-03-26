@@ -92,7 +92,7 @@ function Footer() {
 }
 function Pizza({ pizzaObj }) {
   return (
-    <li>
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
       <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
         <h2>{pizzaObj.name}</h2> <p>{pizzaObj.ingredients}</p>
