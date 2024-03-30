@@ -43,8 +43,16 @@ const DateCounter = () => {
           ? `Yesterday was ${getDate(count)}`
           : count < -1
           ? `${Math.abs(count)} days before was ${getDate(count)}`
-          : ``}
+          : `Nesto`}
       </div>
+      <div>Neki div</div>
+      <ul>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
     </div>
   );
 };
