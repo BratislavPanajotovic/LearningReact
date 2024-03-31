@@ -11,9 +11,10 @@ function App() {
 
 const DateCounter = () => {
   const [step, setStep] = useState(1);
+  const [count, setCount] = useState(1);
+
   const handleIncrement = () => setStep((count) => count + 1);
   const handleDecrement = () => setStep((count) => count - 1);
-  const [count, setCount] = useState(1);
   const handleCountIncrement = () => setCount((count) => count + step);
   const handleCountDecrement = () => setCount((count) => count - step);
 
