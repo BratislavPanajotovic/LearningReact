@@ -5,6 +5,10 @@ export default function App() {
     </div>
   );
 }
+let initialItems = [
+  { id: 1, description: "Passports", quantity: 2, packed: false },
+  { id: 2, description: "Socks", quantity: 12, packed: false },
+];
 
 function Logo() {
   return <h1>Far Away</h1>;
@@ -12,14 +16,34 @@ function Logo() {
 
 function Form() {
   return (
-    <div className="add-form">
+    <form className="add-form">
       <h3>What do you need for your trip ?</h3>
-    </div>
+      <select>
+        {Array.from({ length: 20 }, (_, i) => i + 1).map((num) => (
+          <option value={num} key={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+    </form>
   );
 }
 function PackingList() {
-  return <div className="list">List</div>;
+  return (
+    <div className="list">
+      <ul>
+        {initialItems.map((item) => (
+          <Item item={item} />
+        ))}
+      </ul>
+    </div>
+  );
 }
+
+function Item({ item }) {
+  return <li>{item.description}</li>;
+}
+
 function Stats() {
   return (
     <footer className="stats">
