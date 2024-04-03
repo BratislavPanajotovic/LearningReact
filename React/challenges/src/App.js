@@ -4,7 +4,8 @@ import { useState } from "react";
 function App() {
   return (
     <div className="App">
-      {/* <DateCounter /> */} <FlashCards />
+      <DateCounter />
+      {/* <FlashCards /> */}
     </div>
   );
 }
@@ -60,60 +61,113 @@ function App() {
 // };
 // *** FIRST CHALLENGE COMPLETED
 
-// ? SECOND CHALLENGE
+// !! SECOND CHALLENGE FINISHED
 
-const questions = [
-  {
-    id: 3457,
-    question: "What language is React based on?",
-    answer: "JavaScript",
-  },
-  {
-    id: 7336,
-    question: "What are the building blocks of React apps?",
-    answer: "Components",
-  },
-  {
-    id: 8832,
-    question: "What's the name of the syntax we use to describe a UI in React?",
-    answer: "JSX",
-  },
-  {
-    id: 1297,
-    question: "How to pass data from parent to child components?",
-    answer: "Props",
-  },
-  {
-    id: 9103,
-    question: "How to give components memory?",
-    answer: "useState hook",
-  },
-  {
-    id: 2002,
-    question:
-      "What do we call an input element that is completely synchronised with state?",
-    answer: "Controlled element",
-  },
-];
+// const questions = [
+//   {
+//     id: 3457,
+//     question: "What language is React based on?",
+//     answer: "JavaScript",
+//   },
+//   {
+//     id: 7336,
+//     question: "What are the building blocks of React apps?",
+//     answer: "Components",
+//   },
+//   {
+//     id: 8832,
+//     question: "What's the name of the syntax we use to describe a UI in React?",
+//     answer: "JSX",
+//   },
+//   {
+//     id: 1297,
+//     question: "How to pass data from parent to child components?",
+//     answer: "Props",
+//   },
+//   {
+//     id: 9103,
+//     question: "How to give components memory?",
+//     answer: "useState hook",
+//   },
+//   {
+//     id: 2002,
+//     question:
+//       "What do we call an input element that is completely synchronised with state?",
+//     answer: "Controlled element",
+//   },
+// ];
 
-function FlashCards() {
-  const [selectedId, setSelectedId] = useState(null);
-  const handleClick = (id) => {
-    setSelectedId(id);
+// function FlashCards() {
+//   const [selectedId, setSelectedId] = useState(null);
+//   const handleClick = (id) => {
+//     setSelectedId(id);
+//   };
+//   return (
+//     <div className="flashcards">
+//       {questions.map((q) => (
+//         <div
+//           key={q.id}
+//           onClick={() => handleClick(q.id)}
+//           className={selectedId === q.id ? "selected" : ""}
+//         >
+//           <p> {selectedId === q.id ? q.answer : q.question} </p>
+//         </div>
+//       ))}
+//     </div>
+//   );
+// }
+
+//**  THIRD CHALLENGE
+
+const DateCounter = () => {
+  const [step, setStep] = useState(1);
+  const [count, setCount] = useState(1);
+
+  const handleCountIncrement = () => setCount((count) => count + step);
+  const handleCountDecrement = () => setCount((count) => count - step);
+
+  const getDate = (count) => {
+    const today = new Date();
+    const newDate = new Date(today);
+    newDate.setDate(today.getDate() + count);
+    return newDate.toLocaleDateString();
   };
+
   return (
-    <div className="flashcards">
-      {questions.map((q) => (
-        <div
-          key={q.id}
-          onClick={() => handleClick(q.id)}
-          className={selectedId === q.id ? "selected" : ""}
-        >
-          <p> {selectedId === q.id ? q.answer : q.question} </p>
-        </div>
-      ))}
+    <div>
+      <div>
+        <input
+          type="range"
+          min="0"
+          max="10"
+          value={step}
+          onChange={(e) => setStep(() => Number(e.target.value))}
+        />
+        <span>{step}</span>
+      </div>
+
+      <div>
+        <button onClick={handleCountDecrement}>-</button>
+        <input
+          type="number"
+          value={count}
+          onChange={(e) => setCount(() => Number(e.target.value))}
+        />
+
+        <button onClick={handleCountIncrement}>+</button>
+      </div>
+      <div>
+        {count === 0
+          ? `Today is ${getDate(count)}`
+          : count > 0
+          ? `${count} days from today is ${getDate(count)}`
+          : count === -1
+          ? `Yesterday was ${getDate(count)}`
+          : count < -1
+          ? `${Math.abs(count)} days before was ${getDate(count)}`
+          : `Nesto`}
+      </div>
     </div>
   );
-}
-
+};
 export default App;
