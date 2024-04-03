@@ -132,6 +132,10 @@ const DateCounter = () => {
     newDate.setDate(today.getDate() + count);
     return newDate.toLocaleDateString();
   };
+  const handleReset = () => {
+    setCount(0);
+    setStep(1);
+  };
 
   return (
     <div>
@@ -167,6 +171,11 @@ const DateCounter = () => {
           ? `${Math.abs(count)} days before was ${getDate(count)}`
           : `Nesto`}
       </div>
+      {(count !== 0 || step !== 1) && (
+        <div>
+          <button onClick={handleReset}>Reset</button>
+        </div>
+      )}
     </div>
   );
 };
