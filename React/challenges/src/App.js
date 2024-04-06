@@ -1,15 +1,6 @@
 import "./App.css";
 import { useState } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <DateCounter />
-      {/* <FlashCards /> */}
-    </div>
-  );
-}
-
 // *** FIRST CHALLENGE COMPLETED
 // const DateCounter = () => {
 //   const [step, setStep] = useState(1);
@@ -119,64 +110,135 @@ function App() {
 
 //**  THIRD CHALLENGE
 
-const DateCounter = () => {
-  const [step, setStep] = useState(1);
-  const [count, setCount] = useState(1);
+// const DateCounter = () => {
+//   const [step, setStep] = useState(1);
+//   const [count, setCount] = useState(1);
 
-  const handleCountIncrement = () => setCount((count) => count + step);
-  const handleCountDecrement = () => setCount((count) => count - step);
+//   const handleCountIncrement = () => setCount((count) => count + step);
+//   const handleCountDecrement = () => setCount((count) => count - step);
 
-  const getDate = (count) => {
-    const today = new Date();
-    const newDate = new Date(today);
-    newDate.setDate(today.getDate() + count);
-    return newDate.toLocaleDateString();
-  };
-  const handleReset = () => {
-    setCount(0);
-    setStep(1);
-  };
+//   const getDate = (count) => {
+//     const today = new Date();
+//     const newDate = new Date(today);
+//     newDate.setDate(today.getDate() + count);
+//     return newDate.toLocaleDateString();
+//   };
+//   const handleReset = () => {
+//     setCount(0);
+//     setStep(1);
+//   };
 
+//   return (
+//     <div>
+//       <div>
+//         <input
+//           type="range"
+//           min="0"
+//           max="10"
+//           value={step}
+//           onChange={(e) => setStep(() => Number(e.target.value))}
+//         />
+//         <span>{step}</span>
+//       </div>
+
+//       <div>
+//         <button onClick={handleCountDecrement}>-</button>
+//         <input
+//           type="number"
+//           value={count}
+//           onChange={(e) => setCount(() => Number(e.target.value))}
+//         />
+
+//         <button onClick={handleCountIncrement}>+</button>
+//       </div>
+//       <div>
+//         {count === 0
+//           ? `Today is ${getDate(count)}`
+//           : count > 0
+//           ? `${count} days from today is ${getDate(count)}`
+//           : count === -1
+//           ? `Yesterday was ${getDate(count)}`
+//           : count < -1
+//           ? `${Math.abs(count)} days before was ${getDate(count)}`
+//           : `Nesto`}
+//       </div>
+//       {(count !== 0 || step !== 1) && (
+//         <div>
+//           <button onClick={handleReset}>Reset</button>
+//         </div>
+//       )}
+//     </div>
+//   );
+// };
+
+// !!! THIRD CHALLENGE FINISHED
+
+// *** FOURTH CHALLENGE - TIP CALCULATOR
+function App() {
   return (
-    <div>
-      <div>
-        <input
-          type="range"
-          min="0"
-          max="10"
-          value={step}
-          onChange={(e) => setStep(() => Number(e.target.value))}
-        />
-        <span>{step}</span>
-      </div>
-
-      <div>
-        <button onClick={handleCountDecrement}>-</button>
-        <input
-          type="number"
-          value={count}
-          onChange={(e) => setCount(() => Number(e.target.value))}
-        />
-
-        <button onClick={handleCountIncrement}>+</button>
-      </div>
-      <div>
-        {count === 0
-          ? `Today is ${getDate(count)}`
-          : count > 0
-          ? `${count} days from today is ${getDate(count)}`
-          : count === -1
-          ? `Yesterday was ${getDate(count)}`
-          : count < -1
-          ? `${Math.abs(count)} days before was ${getDate(count)}`
-          : `Nesto`}
-      </div>
-      {(count !== 0 || step !== 1) && (
-        <div>
-          <button onClick={handleReset}>Reset</button>
-        </div>
-      )}
+    <div className="App">
+      <BillSum />
+      <Service />
+      <FriendService />
+      <Stats />
+      <Reset />
+      {/* <DateCounter /> */}
+      {/* <FlashCards /> */}
     </div>
   );
-};
+}
+
+function BillSum() {
+  const [bill, setBill] = useState(0);
+  function handleInput() {
+    setBill((e) => Number(e.target.value));
+  }
+  return (
+    <div>
+      <h3>How much was the bill ?</h3>
+      <input type="number" value={bill} onChange={handleInput} />
+    </div>
+  );
+}
+function Service() {
+  return (
+    <div>
+      <h3>How did you like the service ?</h3>
+      <select type="number" name="" id="">
+        <option value="dissatisfied">Dissatisfied (0%)</option>
+        <option value="ok">It was ok (5%)</option>
+        <option value="good">It was good (10%)</option>
+        <option value="amazing">Absolutely amazing (20%)</option>
+      </select>
+    </div>
+  );
+}
+function FriendService() {
+  return (
+    <div>
+      <h3>How did your friend like the service?</h3>
+      <select type="number" name="" id="">
+        <option value="dissatisfied">Dissatisfied (0%)</option>
+        <option value="ok">It was ok (5%)</option>
+        <option value="good">It was good (10%)</option>
+        <option value="amazing">Absolutely amazing (20%)</option>
+      </select>
+    </div>
+  );
+}
+function Stats() {
+  return (
+    <div>
+      <h2>You pay X ( X + X tip )</h2>
+    </div>
+  );
+}
+
+function Reset() {
+  return (
+    <div>
+      <button type="button">RESET</button>
+    </div>
+  );
+}
 export default App;
