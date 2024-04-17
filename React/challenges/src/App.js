@@ -288,6 +288,10 @@ function TextExpander({
   className = "box",
 }) {
   const [collNumWords, setCollNumWords] = useState(collapsedNumWords);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const displayText = isExpanded ? children : "test";
+
   const boxStyle = {
     className: `${className}`,
   };
