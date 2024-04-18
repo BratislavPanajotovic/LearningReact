@@ -244,7 +244,7 @@ import { useState } from "react";
 //! FOURTH CHALLENGE FINISHED
 
 //* FIFTH CHALLENGE :
-function App() {
+export default function App() {
   return (
     <div>
       <TextExpander>
@@ -280,29 +280,31 @@ function App() {
 
 function TextExpander({
   children,
-  collapsedNumWords = 0,
-  expandButtonText = "Show more",
-  collapseButtonText = "Hide text",
-  buttonColor = "#3a7bd5",
+  collapsedNumWords = 10,
+  expandButtonText = "Show text",
+  collapseButtonText = "Show less",
+  buttonColor = "blue",
   expanded = false,
-  className = "box",
+  className,
 }) {
-  const [collNumWords, setCollNumWords] = useState(collapsedNumWords);
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const displayText = isExpanded ? children : "test";
-
-  const boxStyle = {
-    className: `${className}`,
+  const [isExpanded, setIsExpanded] = useState(expanded);
+  function HandleClick() {
+    setIsExpanded(!isExpanded);
+  }
+  const buttonStyle = {
+    color: buttonColor,
+    backgroundColor: "inherit",
+    border: "none",
+    paddingLeft: "0px",
   };
   return (
-    <div>
-      <p style={boxStyle}>{children} </p>
-      <button onClick={() => setCollNumWords(collNumWords + 1)}>
-        {expandButtonText}
+    <div className={className}>
+      {isExpanded
+        ? children
+        : children.split(" ").slice(0, collapsedNumWords).join(" ") + "..."}
+      <button style={buttonStyle} onClick={HandleClick}>
+        {isExpanded ? collapseButtonText : expandButtonText}
       </button>
     </div>
   );
 }
-
-export default App;
