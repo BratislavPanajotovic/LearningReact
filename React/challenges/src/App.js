@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // *** FIRST CHALLENGE COMPLETED
 // const DateCounter = () => {
@@ -244,67 +244,142 @@ import { useState } from "react";
 //! FOURTH CHALLENGE FINISHED
 
 //* FIFTH CHALLENGE :
+// export default function App() {
+//   return (
+//     <div>
+//       <TextExpander>
+//         Space travel is the ultimate adventure! Imagine soaring past the stars
+//         and exploring new worlds. It's the stuff of dreams and science fiction,
+//         but believe it or not, space travel is a real thing. Humans and robots
+//         are constantly venturing out into the cosmos to uncover its secrets and
+//         push the boundaries of what's possible.
+//       </TextExpander>
+
+//       <TextExpander
+//         collapsedNumWords={20}
+//         expandButtonText="Show text"
+//         collapseButtonText="Collapse text"
+//         buttonColor="#ff6622"
+//       >
+//         Space travel requires some seriously amazing technology and
+//         collaboration between countries, private companies, and international
+//         space organizations. And while it's not always easy (or cheap), the
+//         results are out of this world. Think about the first time humans stepped
+//         foot on the moon or when rovers were sent to roam around on Mars.
+//       </TextExpander>
+
+//       <TextExpander expanded={true} className="box">
+//         Space missions have given us incredible insights into our universe and
+//         have inspired future generations to keep reaching for the stars. Space
+//         travel is a pretty cool thing to think about. Who knows what we'll
+//         discover next!
+//       </TextExpander>
+//     </div>
+//   );
+// }
+
+// function TextExpander({
+//   children,
+//   collapsedNumWords = 10,
+//   expandButtonText = "Show text",
+//   collapseButtonText = "Show less",
+//   buttonColor = "blue",
+//   expanded = false,
+//   className,
+// }) {
+//   const [isExpanded, setIsExpanded] = useState(expanded);
+//   function HandleClick() {
+//     setIsExpanded(!isExpanded);
+//   }
+//   const buttonStyle = {
+//     color: buttonColor,
+//     backgroundColor: "inherit",
+//     border: "none",
+//     paddingLeft: "0px",
+//   };
+//   return (
+//     <div className={className}>
+//       {isExpanded
+//         ? children
+//         : children.split(" ").slice(0, collapsedNumWords).join(" ") + "..."}
+//       <button style={buttonStyle} onClick={HandleClick}>
+//         {isExpanded ? collapseButtonText : expandButtonText}
+//       </button>
+//     </div>
+//   );
+// }
+//! FIFTH CHALLENGE FINISHED
+//* SIXTH CHALLENGE
 export default function App() {
+  const [currencyFrom, setCurrencyFrom] = useState("USD");
+  const [currencyTo, setCurrencyTo] = useState("USD");
+  const [amount, setAmount] = useState("10");
+  const [convertedValue, setConvertedValue] = useState(0);
+
+  useEffect(() => {
+    async function getConvertedValues() {
+      const res = await fetch(
+        `https://api.frankfurter.app/latest?amount=${amount}&from=${currencyFrom}&to=${currencyTo}`
+      );
+      const data = await res.json();
+      setConvertedValue(Number(data.rates[currencyTo]));
+    }
+    if (currencyFrom === currencyTo) return setConvertedValue(amount);
+    getConvertedValues();
+  }, [amount, currencyFrom, currencyTo]);
+
+  function handleConvertFrom(e) {
+    setCurrencyFrom(e.target.value);
+  }
+  function handleConvertTo(e) {
+    setCurrencyTo(e.target.value);
+  }
+  function handleAmountChange(e) {
+    setAmount(e.target.value);
+  }
   return (
     <div>
-      <TextExpander>
-        Space travel is the ultimate adventure! Imagine soaring past the stars
-        and exploring new worlds. It's the stuff of dreams and science fiction,
-        but believe it or not, space travel is a real thing. Humans and robots
-        are constantly venturing out into the cosmos to uncover its secrets and
-        push the boundaries of what's possible.
-      </TextExpander>
-
-      <TextExpander
-        collapsedNumWords={20}
-        expandButtonText="Show text"
-        collapseButtonText="Collapse text"
-        buttonColor="#ff6622"
-      >
-        Space travel requires some seriously amazing technology and
-        collaboration between countries, private companies, and international
-        space organizations. And while it's not always easy (or cheap), the
-        results are out of this world. Think about the first time humans stepped
-        foot on the moon or when rovers were sent to roam around on Mars.
-      </TextExpander>
-
-      <TextExpander expanded={true} className="box">
-        Space missions have given us incredible insights into our universe and
-        have inspired future generations to keep reaching for the stars. Space
-        travel is a pretty cool thing to think about. Who knows what we'll
-        discover next!
-      </TextExpander>
+      <AmountInput amount={amount} handleAmountChange={handleAmountChange} />
+      <CurrencyFrom
+        currencyFrom={currencyFrom}
+        handleConvertFrom={handleConvertFrom}
+      />
+      <CurrencyTo labelTo={currencyTo} handleConvertTo={handleConvertTo} />
+      <AmountOutput convertedValue={convertedValue} currencyTo={currencyTo} />
     </div>
   );
 }
 
-function TextExpander({
-  children,
-  collapsedNumWords = 10,
-  expandButtonText = "Show text",
-  collapseButtonText = "Show less",
-  buttonColor = "blue",
-  expanded = false,
-  className,
-}) {
-  const [isExpanded, setIsExpanded] = useState(expanded);
-  function HandleClick() {
-    setIsExpanded(!isExpanded);
-  }
-  const buttonStyle = {
-    color: buttonColor,
-    backgroundColor: "inherit",
-    border: "none",
-    paddingLeft: "0px",
-  };
+function CurrencyFrom({ currencyFrom, handleConvertFrom }) {
   return (
-    <div className={className}>
-      {isExpanded
-        ? children
-        : children.split(" ").slice(0, collapsedNumWords).join(" ") + "..."}
-      <button style={buttonStyle} onClick={HandleClick}>
-        {isExpanded ? collapseButtonText : expandButtonText}
-      </button>
-    </div>
+    <select value={currencyFrom} onChange={handleConvertFrom}>
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="CAD">CAD</option>
+      <option value="INR">INR</option>
+    </select>
+  );
+}
+
+function CurrencyTo({ currencyTo, handleConvertTo }) {
+  return (
+    <select value={currencyTo} onChange={handleConvertTo}>
+      <option value="USD">USD</option>
+      <option value="EUR">EUR</option>
+      <option value="CAD">CAD</option>
+      <option value="INR">INR</option>
+    </select>
+  );
+}
+
+function AmountInput({ amount, handleAmountChange }) {
+  console.log(amount);
+  return <input type="text" value={amount} onChange={handleAmountChange} />;
+}
+function AmountOutput({ convertedValue, currencyTo }) {
+  return (
+    <p>
+      {convertedValue} {currencyTo}
+    </p>
   );
 }
