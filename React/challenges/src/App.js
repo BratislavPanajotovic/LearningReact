@@ -310,76 +310,145 @@ import { useState, useEffect } from "react";
 // }
 //! FIFTH CHALLENGE FINISHED
 //* SIXTH CHALLENGE
+// export default function App() {
+//   const [currencyFrom, setCurrencyFrom] = useState("USD");
+//   const [currencyTo, setCurrencyTo] = useState("USD");
+//   const [amount, setAmount] = useState("10");
+//   const [convertedValue, setConvertedValue] = useState(0);
+
+//   useEffect(() => {
+//     async function getConvertedValues() {
+//       const res = await fetch(
+//         `https://api.frankfurter.app/latest?amount=${amount}&from=${currencyFrom}&to=${currencyTo}`
+//       );
+//       const data = await res.json();
+//       setConvertedValue(Number(data.rates[currencyTo]));
+//     }
+//     if (currencyFrom === currencyTo) return setConvertedValue(amount);
+//     getConvertedValues();
+//   }, [amount, currencyFrom, currencyTo]);
+
+//   function handleConvertFrom(e) {
+//     setCurrencyFrom(e.target.value);
+//   }
+//   function handleConvertTo(e) {
+//     setCurrencyTo(e.target.value);
+//   }
+//   function handleAmountChange(e) {
+//     setAmount(e.target.value);
+//   }
+//   return (
+//     <div>
+//       <AmountInput amount={amount} handleAmountChange={handleAmountChange} />
+//       <CurrencyFrom
+//         currencyFrom={currencyFrom}
+//         handleConvertFrom={handleConvertFrom}
+//       />
+//       <CurrencyTo labelTo={currencyTo} handleConvertTo={handleConvertTo} />
+//       <AmountOutput convertedValue={convertedValue} currencyTo={currencyTo} />
+//     </div>
+//   );
+// }
+
+// function CurrencyFrom({ currencyFrom, handleConvertFrom }) {
+//   return (
+//     <select value={currencyFrom} onChange={handleConvertFrom}>
+//       <option value="USD">USD</option>
+//       <option value="EUR">EUR</option>
+//       <option value="CAD">CAD</option>
+//       <option value="INR">INR</option>
+//     </select>
+//   );
+// }
+
+// function CurrencyTo({ currencyTo, handleConvertTo }) {
+//   return (
+//     <select value={currencyTo} onChange={handleConvertTo}>
+//       <option value="USD">USD</option>
+//       <option value="EUR">EUR</option>
+//       <option value="CAD">CAD</option>
+//       <option value="INR">INR</option>
+//     </select>
+//   );
+// }
+
+// function AmountInput({ amount, handleAmountChange }) {
+//   console.log(amount);
+//   return <input type="text" value={amount} onChange={handleAmountChange} />;
+// }
+// function AmountOutput({ convertedValue, currencyTo }) {
+//   return (
+//     <p>
+//       {convertedValue} {currencyTo}
+//     </p>
+//   );
+// }
+// ! SIXTH CHALLENGE FINISHED
+//* SEVENTH CHALLENGE
+function useGeolocation() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [position, setPosition] = useState({});
+  const [error, setError] = useState(null);
+
+  function getPosition() {
+    if (!navigator.geolocation)
+      return setError("Your browser does not support geolocation");
+
+    setIsLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setPosition({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        });
+        setIsLoading(false);
+      },
+      (error) => {
+        setError(error.message);
+        setIsLoading(false);
+      }
+    );
+  }
+  return { isLoading, position, error, getPosition };
+}
+
 export default function App() {
-  const [currencyFrom, setCurrencyFrom] = useState("USD");
-  const [currencyTo, setCurrencyTo] = useState("USD");
-  const [amount, setAmount] = useState("10");
-  const [convertedValue, setConvertedValue] = useState(0);
+  const [countClicks, setCountClicks] = useState(0);
+  const {
+    isLoading,
+    position: { lat, lng },
+    error,
+    getPosition,
+  } = useGeolocation();
+  function handleClick() {
+    setCountClicks((count) => count + 1);
+    getPosition();
+  }
 
-  useEffect(() => {
-    async function getConvertedValues() {
-      const res = await fetch(
-        `https://api.frankfurter.app/latest?amount=${amount}&from=${currencyFrom}&to=${currencyTo}`
-      );
-      const data = await res.json();
-      setConvertedValue(Number(data.rates[currencyTo]));
-    }
-    if (currencyFrom === currencyTo) return setConvertedValue(amount);
-    getConvertedValues();
-  }, [amount, currencyFrom, currencyTo]);
+  // const { lat, lng } = position;
 
-  function handleConvertFrom(e) {
-    setCurrencyFrom(e.target.value);
-  }
-  function handleConvertTo(e) {
-    setCurrencyTo(e.target.value);
-  }
-  function handleAmountChange(e) {
-    setAmount(e.target.value);
-  }
   return (
     <div>
-      <AmountInput amount={amount} handleAmountChange={handleAmountChange} />
-      <CurrencyFrom
-        currencyFrom={currencyFrom}
-        handleConvertFrom={handleConvertFrom}
-      />
-      <CurrencyTo labelTo={currencyTo} handleConvertTo={handleConvertTo} />
-      <AmountOutput convertedValue={convertedValue} currencyTo={currencyTo} />
+      <button onClick={handleClick} disabled={isLoading}>
+        Get my position
+      </button>
+
+      {isLoading && <p>Loading position...</p>}
+      {error && <p>{error}</p>}
+      {!isLoading && !error && lat && lng && (
+        <p>
+          Your GPS position:{" "}
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href={`https://www.openstreetmap.org/#map=16/${lat}/${lng}`}
+          >
+            {lat}, {lng}
+          </a>
+        </p>
+      )}
+
+      <p>You requested position {countClicks} times</p>
     </div>
-  );
-}
-
-function CurrencyFrom({ currencyFrom, handleConvertFrom }) {
-  return (
-    <select value={currencyFrom} onChange={handleConvertFrom}>
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="CAD">CAD</option>
-      <option value="INR">INR</option>
-    </select>
-  );
-}
-
-function CurrencyTo({ currencyTo, handleConvertTo }) {
-  return (
-    <select value={currencyTo} onChange={handleConvertTo}>
-      <option value="USD">USD</option>
-      <option value="EUR">EUR</option>
-      <option value="CAD">CAD</option>
-      <option value="INR">INR</option>
-    </select>
-  );
-}
-
-function AmountInput({ amount, handleAmountChange }) {
-  console.log(amount);
-  return <input type="text" value={amount} onChange={handleAmountChange} />;
-}
-function AmountOutput({ convertedValue, currencyTo }) {
-  return (
-    <p>
-      {convertedValue} {currencyTo}
-    </p>
   );
 }
