@@ -1,4 +1,4 @@
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 
 const initialStateAccount = {
   balance: 0,
@@ -41,12 +41,20 @@ function customerReducer(state = initialStateCustomer, action) {
         nationalID: action.payload.nationalID,
         createdAt: new Date().toISOString(),
       };
+    case "customer/updateName":
+      return { ...state, fullName: action.payload };
+
     default:
       return state;
   }
 }
 
-const store = createStore(accountReducer);
+const rootReducer = combineReducers({
+  account: accountReducer,
+  customer: customerReducer,
+});
+
+const store = createStore(rootReducer);
 
 function deposit(amount) {
   return { type: "account/deposit", payload: amount };
@@ -67,10 +75,13 @@ function payLoan() {
 
 function createCustomer(fullName, nationalID) {
   return {
-    typer: "customer/createCustomer",
+    type: "customer/createCustomer",
     payload: { fullName, nationalID, createdAt: new Date().toISOString() },
   };
 }
 function updateName(fullName) {
   return { type: "account/updateName" };
 }
+
+store.dispatch(createCustomer("Baki", "RS"));
+console.log(store.getState());
