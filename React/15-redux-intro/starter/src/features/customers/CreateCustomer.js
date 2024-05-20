@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createCustomer } from "../customers/customerSlice";
+import { createCustomer, updateName } from "../customers/customerSlice";
 
 function Customer() {
   const [fullName, setFullName] = useState("");
@@ -9,7 +9,7 @@ function Customer() {
   const dispatch = useDispatch();
 
   function handleClick() {
-    if(!fullName || !nationalId) return;
+    if (!fullName || !nationalId) return;
     dispatch(createCustomer(fullName, nationalId));
   }
 
